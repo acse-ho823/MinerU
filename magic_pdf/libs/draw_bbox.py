@@ -160,14 +160,16 @@ def draw_layout_bbox(pdf_info, pdf_bytes, out_path, filename):
                 bbox = block['bbox']
                 page_block_list.append(bbox)
             elif block['type'] in [BlockType.Image]:
-                for sub_block in block['blocks']:
-                    bbox = sub_block['bbox']
-                    page_block_list.append(bbox)
+                for sub_block in block['blocks']: # EYO
+                    if sub_block['type'] in [BlockType.ImageBody]:
+                        bbox = sub_block['bbox']
+                        page_block_list.append(bbox)
             elif block['type'] in [BlockType.Table]:
                 sorted_blocks = sorted(block['blocks'], key=lambda x: table_type_order[x['type']])
-                for sub_block in sorted_blocks:
-                    bbox = sub_block['bbox']
-                    page_block_list.append(bbox)
+                for sub_block in sorted_blocks: # EYO
+                    if sub_block['type'] in [BlockType.TableBody]:
+                        bbox = sub_block['bbox']
+                        page_block_list.append(bbox)
 
         layout_bbox_list.append(page_block_list)
 

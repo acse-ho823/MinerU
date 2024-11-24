@@ -16,6 +16,7 @@ from magic_pdf.rw.DiskReaderWriter import DiskReaderWriter
 model_config.__use_inside_model__ = True
 
 app = FastAPI()
+logger.info("API server started")
 
 def json_md_dump(
         pipe,

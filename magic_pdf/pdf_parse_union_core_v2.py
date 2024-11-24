@@ -552,7 +552,7 @@ def process_block_list(blocks, body_type, block_type):
     }
 
 
-def revert_group_blocks(blocks):
+def revert_group_blocks(blocks): # FUCK YOU
     image_groups = {}
     table_groups = {}
     new_blocks = []
@@ -578,6 +578,42 @@ def revert_group_blocks(blocks):
 
     return new_blocks
 
+# def revert_group_blocks(blocks):
+#     image_groups = {}
+#     table_groups = {}
+#     new_blocks = []
+#     i=1
+#     for block in blocks:
+#         print(i, block['type'])
+#         i+=1
+#         if block['type'] in [BlockType.ImageBody, BlockType.ImageCaption, BlockType.ImageFootnote]:
+#             group_id = block['group_id']
+#             if group_id not in image_groups:
+#                 image_groups[group_id] = []
+#             image_groups[group_id].append(block)
+
+#         elif block['type'] in [BlockType.TableBody, BlockType.TableCaption, BlockType.TableFootnote]:
+#             group_id = block['group_id']
+#             if group_id not in table_groups:
+#                 table_groups[group_id] = []
+#             table_groups[group_id].append(block)
+
+#         else:
+#             new_blocks.append(block)
+
+#         if block['type'] in [BlockType.ImageCaption, BlockType.ImageFootnote, BlockType.TableCaption, BlockType.TableFootnote]:
+#             print('+'*20)
+#             print(block)
+#             print('+'*20)
+#             new_blocks.append(block)
+
+#     for group_id, blocks in image_groups.items():
+#         new_blocks.append(process_block_list(blocks, BlockType.ImageBody, BlockType.Image))
+
+#     for group_id, blocks in table_groups.items():
+#         new_blocks.append(process_block_list(blocks, BlockType.TableBody, BlockType.Table))
+
+#     return new_blocks
 
 def remove_outside_spans(spans, all_bboxes, all_discarded_blocks):
     def get_block_bboxes(blocks, block_type_list):
@@ -747,7 +783,7 @@ def parse_page_core(
     fix_blocks = cal_block_index(fix_blocks, sorted_bboxes)
 
     """将image和table的block还原回group形式参与后续流程"""
-    fix_blocks = revert_group_blocks(fix_blocks)
+    fix_blocks = revert_group_blocks(fix_blocks) # FUCK
 
     """重排block"""
     sorted_blocks = sorted(fix_blocks, key=lambda b: b['index'])

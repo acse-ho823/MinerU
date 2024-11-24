@@ -61,7 +61,7 @@ RUN /bin/bash -c "source /opt/mineru_venv/bin/activate && \
     python -m pip install paddlepaddle-gpu==3.0.0b1 -i https://www.paddlepaddle.org.cn/packages/stable/cu118/ --no-cache-dir"
 
 # Copy the configuration file template and set up the model directory
-COPY magic-pdf.json /root/magic-pdf.json
+COPY magic-pdf.template.json /root/magic-pdf.json
 ADD models /opt/models
 ADD .paddleocr /root/.paddleocr 
 ADD app.py /root/app.py

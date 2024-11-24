@@ -86,7 +86,9 @@ class AbsPipe(ABC):
         """根据pdf类型，生成统一格式content_list."""
         pdf_mid_data = JsonCompressor.decompress_json(compressed_pdf_mid_data)
         pdf_info_list = pdf_mid_data['pdf_info']
+        print('*'*10, len(pdf_info_list[0]))
         content_list = union_make(pdf_info_list, MakeMode.STANDARD_FORMAT, drop_mode, img_buket_path)
+        print('*'*10, len(content_list))
         return content_list
 
     @staticmethod
