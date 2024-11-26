@@ -46,5 +46,20 @@ RUN /bin/bash -c "pip3 install modelscope && \
     python3 download_models.py && \
     sed -i 's|cpu|cuda|g' /root/magic-pdf.json"
 
+# Correctly extract PaddleOCR models to parent directories
+RUN mkdir -p /root/.paddleocr/whl/det/ch && \
+    wget https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_infer.tar -O /root/.paddleocr/whl/det/ch/ch_PP-OCRv4_det_infer.tar && \
+    tar -xf /root/.paddleocr/whl/det/ch/ch_PP-OCRv4_det_infer.tar -C /root/.paddleocr/whl/det/ch && \
+    rm /root/.paddleocr/whl/det/ch/ch_PP-OCRv4_det_infer.tar && \
+    mkdir -p /root/.paddleocr/whl/rec/ch && \
+    wget https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_infer.tar -O /root/.paddleocr/whl/rec/ch/ch_PP-OCRv4_rec_infer.tar && \
+    tar -xf /root/.paddleocr/whl/rec/ch/ch_PP-OCRv4_rec_infer.tar -C /root/.paddleocr/whl/rec/ch && \
+    rm /root/.paddleocr/whl/rec/ch/ch_PP-OCRv4_rec_infer.tar && \
+    mkdir -p /root/.paddleocr/whl/cls && \
+    wget https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_infer.tar -O /root/.paddleocr/whl/cls/ch_ppocr_mobile_v2.0_cls_infer.tar && \
+    tar -xf /root/.paddleocr/whl/cls/ch_ppocr_mobile_v2.0_cls_infer.tar -C /root/.paddleocr/whl/cls && \
+    rm /root/.paddleocr/whl/cls/ch_ppocr_mobile_v2.0_cls_infer.tar
+
+
 # Set the entry point to activate the virtual environment and run the command line tool
 ENTRYPOINT ["/bin/bash", "-c", "source /opt/mineru_venv/bin/activate && exec \"$@\"", "--"]
