@@ -192,9 +192,8 @@ def para_to_standard_format_v2(para_block, img_buket_path, page_idx, drop_reason
         }
     elif para_type == BlockType.Title:
         para_content = {
-            'type': 'text',
+            'type': 'title',
             'text': merge_para_with_text(para_block),
-            'text_level': 1,
         }
     elif para_type == BlockType.InterlineEquation:
         para_content = {
@@ -240,6 +239,14 @@ def para_to_standard_format_v2(para_block, img_buket_path, page_idx, drop_reason
 
     if drop_reason is not None:
         para_content['drop_reason'] = drop_reason
+    
+    if para_type in [BlockType.Image, BlockType.Table]:
+        para_content['bbox'] = para_block['bbox']
+        print(para_content['bbox'])
+
+
+    else:
+        para_content['bbox'] = para_block['bbox']
 
     return para_content
 
