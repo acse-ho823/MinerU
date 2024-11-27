@@ -240,13 +240,30 @@ def para_to_standard_format_v2(para_block, img_buket_path, page_idx, drop_reason
     if drop_reason is not None:
         para_content['drop_reason'] = drop_reason
     
-    if para_type in [BlockType.Image, BlockType.Table]:
-        para_content['bbox'] = para_block['bbox']
-        print(para_content['bbox'])
+    para_content['bbox'] = []
+    if para_type == BlockType.Image:
+        para_content['bbox'].append(para_block['bbox'])
+        # para_content['bbox'].append(para_block['image_footnote']['bbox'])
 
+        for block in para_block['blocks']:
+            # print(block)
+            if block['type'] == BlockType.ImageCaption:
+                para_content['bbox'].append(block['bbox'])
+            
+            if block['type'] == BlockType.ImageFootnote:
+                para_content['bbox'].append(block['bbox'])
+
+    elif para_type == BlockType.Table:
+        para_content['bbox'].append(para_block['bbox'])
+
+        if para_block.get('table_caption'):
+            para_content['bbox'].append(para_block['table_caption']['bbox'])
+
+        if para_block.get('table_footnote'):
+            para_content['bbox'].append(para_block['table_footnote']['bbox'])
 
     else:
-        para_content['bbox'] = para_block['bbox']
+        para_content['bbox'].append(para_block['bbox'])
 
     return para_content
 
